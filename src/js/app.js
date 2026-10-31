@@ -4248,7 +4248,12 @@ async function bookLayout() { // 数式を組版し、すべてのページの�
 }
 function bookPages(id) { // 節の本文を、<!--pg--> でページに分ける
   const pages = [];
-  BOOKS[id].sections.forEach(sec => { const parts = sec.body().split("<!--pg-->"); parts.forEach((html, i) => pages.push({ sec: sec.id, h: sec.h(), html, i, n: parts.length })); });
+  BOOKS[id].sections.forEach(sec => {
+    const override = LANG === "zh-CN" ? BOOK_ZH_CN[id]?.[sec.id] : null;
+    const body = override ? override({ KEY, bkTable, bkRefs }) : sec.body();
+    const parts = body.split("<!--pg-->");
+    parts.forEach((html, i) => pages.push({ sec: sec.id, h: sec.h(), html, i, n: parts.length }));
+  });
   return pages;
 }
 function bookHTML(id, page = 0) {
