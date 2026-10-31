@@ -5,12 +5,22 @@ const LANG = (() => {
   } catch (_) {}
   return "zh-CN";
 })();
+// Keep the provenance of recently rendered catalog strings. Checking for Japanese
+// kana in the final rendered string is unsafe: formulas and injected labels can
+// contain Japanese even when the surrounding template is already Chinese.
+const __T_ZH_RECENT = new Set();
 function __T(i, a) {
   const entry = TLX[i];
-  // Chinese overlay -> source English -> original Japanese, preserving index semantics.
   const p = LANG === "zh-CN" ? (ZH_CN[i] ?? entry[1] ?? entry[0]) :
     LANG === "en" ? (entry[1] ?? entry[0]) : entry[0];
-  return a ? p.replace(/⟦([0-9]+)⟧/g, (m, k) => a[+k]) : p;
+  const result = a ? p.replace(/⟦([0-9]+)⟧/g, (m, k) => a[+k]) : p;
+  if (LANG === "zh-CN") {
+    __T_ZH_RECENT.add(result);
+    if (__T_ZH_RECENT.size > 128) {
+      __T_ZH_RECENT.delete(__T_ZH_RECENT.values().next().value);
+    }
+  }
+  return result;
 }
 const RD = r => LANG === "en" ? ({ "仮定": "Hyp", "補題": "Lemma", "帰納法": "Ind", "定義": "Def" }[r] || r) :
   LANG === "zh-CN" ? ({ "仮定": "假设", "補題": "引理", "帰納法": "归纳法", "定義": "定义" }[r] || r) : r; // Inference-rule labels
@@ -2956,8 +2966,11 @@ const BKFS = (...figs) => `<div class="bk-figs">${figs.join("")}</div>`;
 const L1 = (ja, en) => {
   if (LANG === "ja") return ja;
   if (LANG === "en") return en;
-  // zh-CN: retain finished Chinese overlay strings, select English for untranslated
-  // Japanese passages. This also works for L1(__T(...), English) in the library.
+  // A string rendered by __T is already locale-selected. Never replace it
+  // solely because a dynamic interpolation contains Japanese characters.
+  if (__T_ZH_RECENT.has(ja)) return ja;
+  // For legacy raw Japanese-versus-English sections not yet in the catalog,
+  // use their English variant unless a Chinese book-page override exists.
   if (typeof ja === "string" && !/[ぁ-ゟ゠-ヿ]/.test(ja)) return ja;
   return en;
 };
