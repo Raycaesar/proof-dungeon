@@ -23,7 +23,7 @@ for (let id = 2158; id <= 2349; id++) {
   assert.deepEqual(tags(text), tags(original), `markup mismatch at ${id}`);
   assert.doesNotMatch(text, /[\u3040-\u30ff]/, `untranslated Japanese script at ${id}`);
 }
-assert.equal(Object.keys(zh).length, 2566);
+assert.ok(Object.keys(zh).length >= 2566, "batch-06 translations must survive later updates");
 assert.match(zh[2213], /量词/);
 assert.match(zh[2234], /佐恩引理/);
 assert.match(zh[2279], /独立/);
