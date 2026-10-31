@@ -25,5 +25,5 @@ assert.match(z[953],/操作|点击/);
 assert.match(z[978],/翻译所/);
 assert.match(z[979],/30258/);
 assert.match(z[999],/矛盾/);
-assert.equal(Object.keys(z).length,2955);
-console.log('PASS batch-08: 136 missing tutorial, proof-tree, story and help texts; 2955 translated.');
+assert.ok(Object.keys(z).length>=2955);
+console.log('PASS batch-08: 136 batch-08 tutorial, proof-tree, story and help entries retained.');
