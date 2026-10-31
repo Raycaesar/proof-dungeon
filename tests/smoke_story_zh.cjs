@@ -16,5 +16,5 @@ for (let i=1000; i<=1287; i++) {
   assert.deepEqual([...ph(translated[i])].sort(), [...ph(originals[i][0])].sort(), `placeholder mismatch ${i}`);
   assert.match(translated[i], /[\u3400-\u9fff]/, `expected Chinese script in ${i}`);
 }
-assert.equal(Object.keys(translated).length, 2105);
-console.log('PASS: all 288 narrative entries localized; 2105 total; placeholders preserved.');
+assert.ok(Object.keys(translated).length >= 2105, "later translation batches must retain the batch-04 entries");
+console.log(`PASS: all 288 narrative entries localized; ${Object.keys(translated).length} total; placeholders preserved.`);
