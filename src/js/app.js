@@ -15,7 +15,7 @@ function __T(i, a) {
 const RD = r => LANG === "en" ? ({ "仮定": "Hyp", "補題": "Lemma", "帰納法": "Ind", "定義": "Def" }[r] || r) :
   LANG === "zh-CN" ? ({ "仮定": "假设", "補題": "引理", "帰納法": "归纳法", "定義": "定义" }[r] || r) : r; // Inference-rule labels
 if (LANG === "en") { document.documentElement.lang = "en"; document.title = "Proof Dungeon: The Labyrinth of Natural Deduction"; const bs = document.querySelector(".brand-sub"); if (bs) bs.textContent = "The Labyrinth of Natural Deduction"; }
-if (LANG === "zh-CN") { document.documentElement.lang = "zh-CN"; document.title = "证明迷宫 · Proof Dungeon"; const bs = document.querySelector(".brand-sub"); if (bs) bs.textContent = "自然演绎与逻辑证明"; }
+if (LANG === "zh-CN") { document.documentElement.lang = "zh-CN"; document.title = "证明迷宫 · Proof Dungeon"; const bs = document.querySelector(".brand-sub"); if (bs) bs.textContent = "自然演绎与逻辑证明"; const bn = document.querySelector(".brand-name"); if (bn) bn.textContent = "证明迷宫"; }
 
 (() => {
 "use strict";
@@ -2538,7 +2538,7 @@ function renderTools() {
   const tutBtn = __T(956, [ICON.play, tutNew ? '<span class="new-badge">New</span>' : ""]);
   const th = THEME_LABEL[PREFS.theme] ? PREFS.theme : "auto";
   const themeBtn = __T(957, [THEME_LABEL[th], THEME_LABEL[th], THEME_ICON[th], THEME_LABEL[th]]);
-  const langBtn = `<button class="btn lang-btn" type="button" data-cmd="lang" title="${LANG === "zh-CN" ? "切换至日语" : LANG === "ja" ? "Switch to English" : "切换至简体中文"}" aria-label="${LANG === "zh-CN" ? "当前语言：简体中文" : LANG === "ja" ? "現在の言語：日本語" : "Current language: English"}"><span class="lbl-always">${LANG === "zh-CN" ? "简中" : LANG === "ja" ? "日本語" : "EN"}</span></button>`;
+  const langBtn = `<button class="btn lang-btn" type="button" data-cmd="lang" title="${LANG === "zh-CN" ? "切换至日语" : LANG === "ja" ? "英語に切り替える" : "Switch to Simplified Chinese"}" aria-label="${LANG === "zh-CN" ? "当前语言：简体中文" : LANG === "ja" ? "現在の言語：日本語" : "Current language: English"}"><span class="lbl-always">${LANG === "zh-CN" ? "简中" : LANG === "ja" ? "日本語" : "EN"}</span></button>`;
   tools.innerHTML = langBtn + themeBtn + tutBtn + (SCREEN === "play"
     ? __T(960, [ICON.map]) +
       (PROB ? __T(961, [ICON.undo, ICON.reset]) : "") +
