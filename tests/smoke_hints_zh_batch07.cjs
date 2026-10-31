@@ -30,7 +30,7 @@ for (const id of ids) {
   }
   assert.doesNotMatch(text, /[\u3040-\u30ff]/, `Japanese kana left at ${id}`);
 }
-assert.equal(Object.keys(zh).length, 2819);
+assert.ok(Object.keys(zh).length >= 2819, "batch-07 baseline must survive later additions");
 assert.match(zh[451], /可靠性定理/);
 assert.match(zh[671], /格利文科定理/);
 assert.match(zh[682], /黑田翻译/);
